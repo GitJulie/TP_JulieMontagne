@@ -35,14 +35,14 @@ object Ex_1 {
     
     //Question 5
     //Moyenne des notes par acteur
-    val count: RDD[((Double, String), Double)] = rdd.map(item => ((1.0, item.split(";")(3)), (item.split(";")(2).toDouble)))
+    val count: RDD[(String, Double)] = rdd.map(item => ((item.split(";")(3)), (item.split(";")(2).toDouble)))
     val withValue = count.mapValues(e => (1.0, e))
     val countSums = withValue.reduceByKey((x,y) => (x._1 + y._1, x._2 + y._2 ))
     val keyMeans = countSums.mapValues(avgCount => avgCount._2 / avgCount._1)
     keyMeans.foreach(println)
 
     //Moyenne des vues par acteur
-    val count2: RDD[((Double, String), Double)] = rdd.map(item => ((1.0, item.split(";")(3)), (item.split(";")(1).toDouble)))
+    val count2: RDD[(String, Double)] = rdd.map(item => ((item.split(";")(3)), (item.split(";")(1).toDouble)))
     val withValue2 = count2.mapValues(e => (1.0, e))
     val countSums2 = withValue2.reduceByKey((x,y) => (x._1 + y._1, x._2 + y._2 ))
     val keyMeans2 = countSums2.mapValues(avgCount => avgCount._2 / avgCount._1)
